@@ -1,4 +1,4 @@
-FROM python:3.10-alpine
+FROM python:3.9-buster
 
 WORKDIR /app
 
@@ -6,4 +6,6 @@ COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
-CMD python backend/manage.py runserver
+COPY . .
+
+CMD python backend/manage.py runserver 0.0.0.0:8000
