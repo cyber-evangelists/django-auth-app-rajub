@@ -13,7 +13,7 @@ const Landing = () => {
     
   
     try {
-      const response = await axios.post('http://localhost:8000/backend/authentification', { email, password });
+      const response = await axios.post('http://localhost:8000//login', { email, password });
       const { status, user, message } = response.data;
   
       if (status === 'success') {
