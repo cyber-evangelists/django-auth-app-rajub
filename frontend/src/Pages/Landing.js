@@ -1,6 +1,8 @@
 import React from 'react'
-import axios from 'axios'
+import axios, { HttpStatusCode } from 'axios'
 import { useState } from 'react';
+import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 const Landing = () => {
   const [email, setEmail] = useState('');
@@ -10,64 +12,43 @@ const Landing = () => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:8000/login/', { email, password });
-      const { status, user, message } = response.data;
-
-      if (status === 'success') {
-        console.log('User authenticated:', user);
-        // Handle successful authentication
+      if (response.status === HttpStatusCode.Ok) {
+        toast('Login Successful');
       } else {
-        console.error('Authentication error:', message);
-        // Handle authentication error
+        toast.error('Login Failed', {});
       }
     } catch (error) {
-      console.error('Request error:', error.message);
-      // Handle request error
+      toast.error('Login Failed');
     }
   };
+
   return (
     <div>
       <header id="header">
-        <div class="container-fluid">
-
+        <div class="container-fluid d-flex justify-content-between">
           <div class="logo">
-            <h1><a href="index.html">Cyber Evangalists</a></h1>
-
-
+            <h1><a href="index.html">Landing Page</a></h1>
           </div>
-
-          <button type="button" class="nav-toggle"><i class="bx bx-menu"></i></button>
-          <nav class="nav-menu">
-            <ul>
-              <li class="active"><a href="#header" class="scrollto">Home</a></li>
-              <li><a href="#about" class="scrollto">About Us</a></li>
-              <li><a href="#why-us" class="scrollto">Why Us</a></li>
-              <li class="drop-down"><a href="">Drop Down</a>
-                <ul>
-                  <li><a href="#">Drop Down 1</a></li>
-                  <li class="drop-down"><a href="#">Drop Down 2</a>
-                    <ul>
-                      <li><a href="#">Deep Drop Down 1</a></li>
-                      <li><a href="#">Deep Drop Down 2</a></li>
-                      <li><a href="#">Deep Drop Down 3</a></li>
-                      <li><a href="#">Deep Drop Down 4</a></li>
-                      <li><a href="#">Deep Drop Down 5</a></li>
-                    </ul>
-                  </li>
-                  <li><a href="#">Drop Down 3</a></li>
-                  <li><a href="#">Drop Down 4</a></li>
-                  <li><a href="#">Drop Down 5</a></li>
-                </ul>
+          <nav>
+            <ul class="d-flex" style={{ listStyle: 'none' }}>
+              <li style={{ marginRight: '10px' }}>
+                <Link to="/register">
+                  <button className="btn btn-primary" type="button">Sign Up</button>
+                </Link>
               </li>
-              <li><a href="#contact" class="scrollto">Contact Us</a></li>
+              <li>
+                <Link to="/forget_password">
+                  <button className="btn btn-secondary" type="button">Forget Password</button>
+                </Link>
+              </li>
             </ul>
           </nav>
-
         </div>
       </header>
 
       <section id="hero">
         <div class="hero-container">
-          <h1>Welcome to Cyber Evangalists</h1>
+          <h1>Welcome to Landing Page</h1>
           <h2>Please, fill out the for below to be notified for the latest updates!</h2>
 
           <form onSubmit={handleSubmit}>
@@ -85,7 +66,7 @@ const Landing = () => {
               <div class="error-message"></div>
               <div class="sent-message">Your notification request was sent. Thank you!</div>
             </div>
-            <div class="text-center"><button type="submit">Login!</button></div>
+            <div className="text-center"><button type="submit" className="btn btn-primary">Login!</button></div>
           </form>
         </div>
       </section>
