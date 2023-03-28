@@ -33,5 +33,12 @@ def register(request):
     return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
 
 
-def forget_password():
-    pass
+def forget_password(request):
+    if request.method == 'POST':
+        body = json.loads(request.body)
+        email = body['email']
+
+        auth.send_password_reset_email(email)
+        return HttpResponse(status=200)
+
+    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)

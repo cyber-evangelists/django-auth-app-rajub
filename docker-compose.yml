@@ -1,0 +1,10 @@
+services:
+  backend:
+    build: "./backend"
+    container-name: auth-app-be
+    port: "8000:8000"
+
+  frontend:
+    build: "./frontend"
+    container-name: auth-app-fe
+    port: "3000:3000"
